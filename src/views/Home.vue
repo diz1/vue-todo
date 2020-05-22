@@ -1,18 +1,39 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-container
+      fluid>
+    <v-row>
+      <v-col cols="12">
+        <v-row
+          :align="alignment"
+          :justify="justify"
+        >
+          <v-col lg="4" md="4" sm="6" xs="12" v-for="todo in todos" :key="todo.id" >
+            <Card :todo="todo"/>
+          </v-col>
+
+        </v-row>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import Card from '../components/Card'
+import { mapGetters } from 'vuex'
 
 export default {
-  name: 'Home',
-  components: {
-    HelloWorld
-  }
+
+  data: () => ({
+    categories: ['all', 'home', 'work'],
+    alignment: 'center',
+    justify: 'center'
+  }),
+  computed: {
+    ...mapGetters(['todos'])
+  },
+  async mounted () {
+    // await this.$store.dispatch('fetchTodos')
+  },
+  components: { Card }
 }
 </script>
