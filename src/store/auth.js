@@ -10,13 +10,14 @@ export default {
         throw e
       }
     },
-    async register ({ dispatch, commit }, { email, password, name, surname }) {
+    async register ({ dispatch, commit }, { email, password, name, surname, avatar }) {
       try {
         await firebase.auth().createUserWithEmailAndPassword(email, password)
         const uid = await dispatch('getUid')
         await firebase.database().ref(`/users/${uid}/info`).set({
           name,
-          surname
+          surname,
+          avatar
         })
       } catch (e) {
         commit('setError', e)
@@ -31,6 +32,7 @@ export default {
       await firebase.auth().signOut()
       commit('clearInfo')
       commit('clearCategories')
+      commit('clearTodos')
     }
   }
 }

@@ -6,10 +6,6 @@
   </div>
 </template>
 
-<style lang="scss">
-
-</style>
-
 <script>
 import MainLayout from './layouts/MainLayout'
 import LoginLayout from './layouts/LoginLayout'

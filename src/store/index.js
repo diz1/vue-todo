@@ -2,14 +2,14 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import auth from './auth'
 import info from './info'
-import todo from './todos'
+import todos from './todos'
 import categories from './category'
+import loading from './loading'
+import snackbar from './snackbar'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {
-  },
   mutations: {
     setError (state, error) {
       state.error = error
@@ -18,12 +18,10 @@ export default new Vuex.Store({
       state.error = null
     }
   },
-  actions: {
-  },
   getters: {
     error: (s) => s.error
   },
   modules: {
-    todo, auth, info, categories
+    todos, auth, info, categories, loading, snackbar
   }
 })

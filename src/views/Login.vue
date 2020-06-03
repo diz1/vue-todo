@@ -1,5 +1,8 @@
 <template>
   <v-app id="inspire">
+    <SnackBar
+        :message="message"
+    />
     <v-content>
       <v-container
           class="fill-height"
@@ -14,18 +17,7 @@
               sm="8"
               md="4"
           >
-            <div v-if="signingIn">
-              <v-row :justify="'center'" :align="'center'">
-                <v-progress-circular
-                    class="text-center"
-                    :size="50"
-                    color="primary"
-                    indeterminate
-                ></v-progress-circular>
-              </v-row>
-            </div>
-
-            <v-card v-else class="elevation-12">
+            <v-card :loading="loading" class="elevation-12">
 
                 <v-card-text>
                   <v-row :justify="'center'">
@@ -34,6 +26,8 @@
 
                   <v-form @submit.prevent="submitHandler">
                     <v-text-field
+                        outlined
+                        dense
                         label="Login"
                         name="login"
                         prepend-icon="person"
@@ -42,6 +36,8 @@
                     ></v-text-field>
 
                     <v-text-field
+                        outlined
+                        dense
                         id="password"
                         label="Password"
                         name="password"
@@ -54,11 +50,11 @@
                       <v-spacer></v-spacer>
 
                       <v-card-actions>
-                        <v-btn color="primary" type="submit">Login</v-btn>
+                        <v-btn outlined color="primary" type="submit">Login</v-btn>
                       </v-card-actions>
 
                       <v-card-actions>
-                        <v-btn color="secondary" link to="/register">Register</v-btn>
+                        <v-btn outlined color="secondary" link to="/register">Register</v-btn>
                       </v-card-actions>
                     </v-row>
 
@@ -74,16 +70,30 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import messages from '../utils/snackbar.messages'
+import SnackBar from '../components/SnackBar'
+
 export default {
   name: 'Login',
+  components: { SnackBar },
   data: () => ({
     email: '',
     password: '',
-    signingIn: false
+    message: ''
   }),
+  computed: {
+    ...mapGetters(['loading', 'snackbar'])
+  },
+  mounted () {
+    if (messages[this.$route.query.message]) {
+      this.message = messages[this.$route.query.message]
+      this.$store.commit('SET_SNACKBAR', { visible: true, message: this.message })
+    }
+  },
   methods: {
     async submitHandler () {
-      this.signingIn = true
+      this.$store.commit('SET_LOADING', true)
       const formData = {
         email: this.email,
         password: this.password
@@ -92,7 +102,8 @@ export default {
         await this.$store.dispatch('login', formData)
         await this.$router.push('/')
       } catch (e) {
-        console.log(e)
+        this.$store.commit('setError', e)
+        throw e
       }
     }
   }

@@ -38,6 +38,25 @@ const routes = [
       auth: true
     },
     component: () => import(/* webpackChunkName: "about" */ '../views/CreateCategory.vue')
+  },
+  {
+    path: '/todo/create',
+    name: 'CreateTodo',
+    meta: {
+      layout: 'main',
+      auth: true
+    },
+    props: true,
+    component: () => import(/* webpackChunkName: "about" */ '../views/CreateTodo.vue')
+  },
+  {
+    path: '/todo/detail/:id',
+    name: 'TodoDetail',
+    meta: {
+      layout: 'main',
+      auth: true
+    },
+    component: () => import(/* webpackChunkName: "about" */ '../views/TodoDetail.vue')
   }
 ]
 

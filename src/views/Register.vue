@@ -18,6 +18,8 @@
               <v-card-text>
                 <v-form @submit.prevent="submitHandler">
                   <v-text-field
+                      outlined
+                      dense
                       label="Name"
                       name="name"
                       prepend-icon="person"
@@ -26,6 +28,8 @@
                   ></v-text-field>
 
                   <v-text-field
+                      outlined
+                      dense
                       label="Surname"
                       name="surname"
                       prepend-icon="person"
@@ -34,14 +38,28 @@
                   ></v-text-field>
 
                   <v-text-field
-                      label="Login"
-                      name="login"
-                      prepend-icon="person"
+                      outlined
+                      dense
+                      label="Link to avatar"
+                      name="avatar"
+                      prepend-icon="account_box"
+                      type="text"
+                      v-model="avatar"
+                  ></v-text-field>
+
+                  <v-text-field
+                      outlined
+                      dense
+                      label="Email"
+                      name="email"
+                      prepend-icon="email"
                       type="text"
                       v-model="email"
                   ></v-text-field>
 
                   <v-text-field
+                      outlined
+                      dense
                       id="password"
                       label="Password"
                       name="password"
@@ -50,10 +68,16 @@
                       v-model="password"
                   ></v-text-field>
 
-                  <v-card-actions>
+                  <v-row>
                     <v-spacer></v-spacer>
-                    <v-btn color="primary" type="submit">Register</v-btn>
-                  </v-card-actions>
+                    <v-card-actions>
+                      <v-btn outlined color="secondary" to="/login">To login</v-btn>
+                    </v-card-actions>
+
+                    <v-card-actions>
+                      <v-btn outlined color="primary" type="submit">Register</v-btn>
+                    </v-card-actions>
+                  </v-row>
                 </v-form>
               </v-card-text>
             </v-card>
@@ -71,7 +95,9 @@ export default {
     email: '',
     password: '',
     name: '',
-    surname: ''
+    surname: '',
+    avatar: '',
+    avatarPlaceholder: 'https://randomuser.me/api/portraits/men/81.jpg'
   }),
   methods: {
     async submitHandler () {
@@ -79,7 +105,8 @@ export default {
         email: this.email,
         password: this.password,
         name: this.name,
-        surname: this.surname
+        surname: this.surname,
+        avatar: this.avatar || this.avatarPlaceholder
       }
       try {
         await this.$store.dispatch('register', formData)

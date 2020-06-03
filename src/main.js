@@ -8,7 +8,6 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify.plugin'
-
 Vue.config.productionTip = false
 
 firebase.initializeApp({

@@ -4,7 +4,7 @@
         id="input-usage"
         fluid
     >
-      <v-row :justify="'center'" class="mt-12">
+      <v-row :justify="'center'">
         <v-col cols="12" lg="6" md="8" sm="8">
           <v-card>
             <v-card-text>
@@ -17,7 +17,7 @@
                     v-model="categoryName"
                     outlined
                 ></v-text-field>
-                <v-btn color="primary" type="submit">Create</v-btn>
+                <v-btn outlined color="primary" type="submit">Create</v-btn>
               </v-form>
             </v-card-text>
           </v-card>
