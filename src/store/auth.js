@@ -33,6 +33,7 @@ export default {
       commit('clearInfo')
       commit('clearCategories')
       commit('clearTodos')
+      commit('clearError')
     }
   }
 }

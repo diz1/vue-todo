@@ -50,11 +50,24 @@
                       <v-spacer></v-spacer>
 
                       <v-card-actions>
-                        <v-btn outlined color="primary" type="submit">Login</v-btn>
+                        <v-btn
+                            outlined
+                            color="primary"
+                            type="submit"
+                            :disabled="loading"
+                        >
+                          Login</v-btn>
                       </v-card-actions>
 
                       <v-card-actions>
-                        <v-btn outlined color="secondary" link to="/register">Register</v-btn>
+                        <v-btn
+                            outlined
+                            color="secondary"
+                            link
+                            to="/register"
+                            :disabled="loading"
+                        >
+                          Register</v-btn>
                       </v-card-actions>
                     </v-row>
 
@@ -83,7 +96,7 @@ export default {
     message: ''
   }),
   computed: {
-    ...mapGetters(['loading', 'snackbar'])
+    ...mapGetters(['loading', 'snackbar', 'error'])
   },
   mounted () {
     if (messages[this.$route.query.message]) {
@@ -103,7 +116,18 @@ export default {
         await this.$router.push('/')
       } catch (e) {
         this.$store.commit('setError', e)
-        throw e
+        this.checkErrorCode(e)
+      }
+    },
+    checkErrorCode (e) {
+      if (e.code === 'auth/wrong-password' || e.code === 'auth/user-not-found') {
+        this.$store.commit('SET_SNACKBAR',
+          { visible: true, message: 'The password or email is invalid' })
+        this.$store.commit('SET_LOADING', false)
+      } else if (e.code === 'auth/too-many-requests') {
+        this.$store.commit('SET_SNACKBAR',
+          { visible: true, message: 'Too many unsuccessful login attempts. Please try again later' })
+        this.$store.commit('SET_LOADING', false)
       }
     }
   }

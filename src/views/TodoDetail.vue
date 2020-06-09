@@ -34,10 +34,31 @@
                     :disabled="!allowEdit"
                 ></v-select>
 
+                <v-checkbox
+                    label="completed"
+                    class="ma-0"
+                    :disabled="!allowEdit"
+                    v-model="completed"
+                />
+
                 <v-card-actions>
-                  <v-btn outlined color="primary" type="submit">Update</v-btn>
                   <v-spacer />
-                  <v-btn outlined color="red" :disabled="!allowEdit" @click="removeTodo(todo.uid)">Delete</v-btn>
+                  <v-btn
+                      outlined
+                      color="primary"
+                      type="submit"
+                      :disabled="!allowEdit"
+                  >
+                    Update
+                  </v-btn>
+                  <v-btn
+                      outlined
+                      color="red"
+                      :disabled="!allowEdit"
+                      @click="removeTodo(todo.uid)"
+                  >
+                    Delete
+                  </v-btn>
                 </v-card-actions>
               </v-form>
             </v-card-text>
@@ -57,7 +78,8 @@ export default {
     todo: {},
     category: '',
     description: '',
-    allowEdit: false
+    allowEdit: false,
+    completed: false
   }),
   computed: {
     ...mapGetters(['todosLoading', 'todos']),
@@ -83,6 +105,9 @@ export default {
         description: this.description,
         category: this.category.toLowerCase(),
         id
+      }
+      if (this.completed) {
+        todo.completed = this.completed
       }
       this.$store.dispatch('updateTodo', todo)
       this.$router.push('/')

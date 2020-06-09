@@ -4,8 +4,9 @@
     <v-app-bar
         app
         clipped-left
+        class="primary white--text"
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="white--text"></v-app-bar-nav-icon>
       <v-toolbar-title>
         Todo List
       </v-toolbar-title>
@@ -16,7 +17,11 @@
         <v-breadcrumbs-item
             to="'/'"
         >
+          <span
+              class="white--text"
+          >
           Home
+            </span>
         </v-breadcrumbs-item>
       </v-breadcrumbs>
 

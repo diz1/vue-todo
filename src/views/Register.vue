@@ -14,8 +14,16 @@
               sm="8"
               md="4"
           >
-            <v-card class="elevation-12">
+            <v-card
+                class="elevation-12"
+                :loading="loading"
+            >
               <v-card-text>
+
+                <v-row :justify="'center'">
+                  <v-card-title>Register</v-card-title>
+                </v-row>
+
                 <v-form @submit.prevent="submitHandler">
                   <v-text-field
                       outlined
@@ -55,6 +63,8 @@
                       prepend-icon="email"
                       type="text"
                       v-model="email"
+                      :error="!!error"
+                      :error-messages="emailMessage"
                   ></v-text-field>
 
                   <v-text-field
@@ -69,13 +79,28 @@
                   ></v-text-field>
 
                   <v-row>
-                    <v-spacer></v-spacer>
                     <v-card-actions>
-                      <v-btn outlined color="secondary" to="/login">To login</v-btn>
+                      <v-btn
+                          outlined
+                          color="secondary"
+                          to="/login"
+                          :disabled="loading"
+                      >
+                        Back to login
+                      </v-btn>
                     </v-card-actions>
 
+                    <v-spacer></v-spacer>
+
                     <v-card-actions>
-                      <v-btn outlined color="primary" type="submit">Register</v-btn>
+                      <v-btn
+                          outlined
+                          color="primary"
+                          type="submit"
+                          :disabled="loading"
+                      >
+                        Register
+                      </v-btn>
                     </v-card-actions>
                   </v-row>
                 </v-form>
@@ -89,6 +114,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Register',
   data: () => ({
@@ -97,10 +124,17 @@ export default {
     name: '',
     surname: '',
     avatar: '',
-    avatarPlaceholder: 'https://randomuser.me/api/portraits/men/81.jpg'
+    avatarPlaceholder: 'https://randomuser.me/api/portraits/men/81.jpg',
+    emailMessage: ''
   }),
+  computed: {
+    ...mapGetters(['loading', 'error'])
+  },
+  mounted () {
+  },
   methods: {
     async submitHandler () {
+      this.$store.commit('SET_LOADING', true)
       const formData = {
         email: this.email,
         password: this.password,
@@ -112,8 +146,18 @@ export default {
         await this.$store.dispatch('register', formData)
         await this.$router.push('/')
       } catch (e) {
-        console.log(e)
+        this.$store.commit('setError', e)
+        this.checkError(e)
+        throw e
       }
+    },
+    checkError (e) {
+      if (e.code === 'auth/invalid-email') {
+        this.emailMessage = 'The email address is incorrect'
+      } else if (e.code === 'auth/email-already-in-use') {
+        this.emailMessage = 'The email address is already in use by another account'
+      }
+      this.$store.commit('SET_LOADING', false)
     }
   }
 }

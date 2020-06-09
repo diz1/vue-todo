@@ -1,16 +1,16 @@
 <template>
   <v-card
-      class="mx-auto"
+      class="blue darken-1 mx-auto"
       max-width="100%"
       :elevation="2"
       outlined
   >
     <v-list-item>
       <v-list-item-content>
-        <v-list-item-title class="headline mb-1">{{ category.name }}</v-list-item-title>
+        <v-list-item-title class="headline mb-1 white--text">{{ category.name }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
-    <v-list nav>
+    <v-list class="ma-2 pa-0">
 
       <div v-if="!checkMatch(category)">
         <v-list-item

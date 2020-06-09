@@ -1,4 +1,4 @@
 export default {
-  login: 'Для начала необходимо войти в систему',
-  logout: 'Вы успешно вышли из системы'
+  login: 'First you need to log in',
+  logout: 'You have successfully logged out'
 }

@@ -51,8 +51,6 @@ export default {
   computed: {
     ...mapGetters(['todos', 'categories', 'todosLoading', 'loading'])
   },
-  metrods: {
-  },
   components: { ListCard }
 }
 </script>

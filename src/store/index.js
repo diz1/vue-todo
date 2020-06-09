@@ -10,6 +10,9 @@ import snackbar from './snackbar'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  state: {
+    error: null
+  },
   mutations: {
     setError (state, error) {
       state.error = error
